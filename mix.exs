@@ -27,6 +27,7 @@ defmodule ChatApp.MixProject do
       {:n2o, "~> 11.9"},
       {:syn, "~> 2.1.1"},
       {:mox, "~> 1.0", only: :test},
+      {:jason, "~> 1.4"}
     ]
   end
 end

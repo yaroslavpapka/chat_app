@@ -20,6 +20,11 @@ defmodule ChatApp.Index do
     render_message(user, message, timestamp)
   end
 
+  def event({:client, {user, message, timestamp}}) do
+    render_message(user, message, timestamp)
+  end
+
+
   def event(_), do: :ok
 
   defp handle_empty_room do
@@ -33,10 +38,30 @@ defmodule ChatApp.Index do
   end
 
   defp update_ui(room) do
-    :nitro.update(:heading, NITRO.h2(id: :heading, body: room))
-    NITRO.textarea(id: :message, rows: 3, class: "chat-textarea")
-    :nitro.update(:logout, NITRO.button(id: :logout, postback: :logout, body: "Logout"))
-    :nitro.update(:send, NITRO.button(id: :send, body: "Send", postback: :chat, source: [:message]))
+    :nitro.update(:heading,
+      NITRO.h2(id: :heading, body: room)
+    )
+
+    :nitro.update(:message,
+      NITRO.textarea(id: :message, rows: 3, class: "chat-textarea", placeholder: "Enter your message...")
+    )
+
+    :nitro.update(:logout,
+      NITRO.button(id: :logout, postback: :logout, body: "Logout")
+    )
+
+    :nitro.update(:send,
+      NITRO.button(id: :send, body: "Send", postback: :chat, source: [:message])
+    )
+
+    :nitro.insert_top(:body,
+      NITRO.div(id: :upload_section,
+        body: [
+          NITRO.input(type: :file, id: :photo, accept: "image/*"),
+          NITRO.button(id: :upload, body: "Upload Photo", postback: :upload_photo, source: [:photo])
+        ]
+      )
+    )
   end
 
   defp load_and_render_messages(room) do
@@ -71,6 +96,7 @@ defmodule ChatApp.Index do
 
     store_message(room, user, message, timestamp)
     broadcast_message(room, user, message, timestamp)
+    :nitro.update(:message, NITRO.textarea(id: :message, body: ""))
   end
 
   defp current_timestamp do
@@ -86,6 +112,26 @@ defmodule ChatApp.Index do
 
   defp broadcast_message(room, user, message, timestamp) do
     :n2o.send({:topic, room}, N2O.client(data: {user, message, timestamp}))
+  end
+
+  def handle_upload(conn) do
+    case conn.params["photo"] do
+      %Plug.Upload{filename: filename, path: temp_path} ->
+        upload_dir = "uploads"
+        File.mkdir_p!(upload_dir)
+        file_path = Path.join(upload_dir, filename)
+
+        case File.cp(temp_path, file_path) do
+          :ok ->
+            {:ok, file_path}
+
+          error ->
+            {:error, error}
+        end
+
+      _ ->
+        {:error, "Invalid upload"}
+    end
   end
 
 end

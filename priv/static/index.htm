@@ -11,12 +11,17 @@
     <button id="logout">logout</button>
 </header>
 <main>
-<form>
-    <textarea id="message" placeholder="Just type what you think about this"></textarea>
-    <button id="send">Send</button>
-</form>
+    <form>
+      <textarea id="message" placeholder="Just type what you think about this"></textarea>
+      <button id="send">Send</button>
+    </form>
     <history id="history"></history>
-</main>
+    <div id="upload_section">
+        <input type="file" id="photo" accept="image/*">
+        <button id="upload">Upload Photo</button>
+        <div id="upload-status"></div>
+    </div>
+  </main>
 <script src="https://ws.n2o.dev/priv/utf8.js"></script>
 <script src="https://ws.n2o.dev/priv/bert.js"></script>
 <script src="https://ws.n2o.dev/priv/heart.js"></script>
@@ -24,6 +29,31 @@
 <script src="https://ws.n2o.dev/priv/n2o.js"></script>
 <script src="https://ws.n2o.dev/priv/ftp.js"></script>
 <script src="https://nitro.n2o.dev/priv/js/nitro.js"></script>
+<script>
+    document.getElementById("upload").addEventListener("click", function () {
+      const fileInput = document.getElementById("photo");
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("photo", file);
+  
+      fetch("/upload", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.text())
+        .then(result => {
+          if (result.startsWith("File uploaded successfully")) {
+            // Извлекаем путь из ответа
+            const filePath = result.replace("File uploaded successfully: ", "").trim();
+  
+            // Передаём результат в серверный event :upload_photo
+            nitro.wire({ postback: "upload_photo", data: { path: filePath } });
+          } else {
+            alert("Error uploading file.");
+          }
+        });
+    });
+  </script>
 <script>host = location.hostname; port = 8002; debug = true; persistent = true;</script>
 <script>$io.do = function(r) { console.log(r); };</script>
 <script>protos = [$bert]; N2O_start();</script>
