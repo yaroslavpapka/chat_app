@@ -22,5 +22,5 @@ jobs:
         with:
           elixir-version: '1.16.0' # [Required] Define the Elixir version
           otp-version: '26.2.1'    # [Required] Define the Erlang/OTP version
-      - name: Change directory
+      - name: Run deps and tests
         run: mix deps.get && mix test
