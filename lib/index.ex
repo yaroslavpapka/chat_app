@@ -34,6 +34,7 @@ defmodule ChatApp.Index do
 
   defp update_ui(room) do
     :nitro.update(:heading, NITRO.h2(id: :heading, body: room))
+    NITRO.textarea(id: :message, rows: 3, class: "chat-textarea")
     :nitro.update(:logout, NITRO.button(id: :logout, postback: :logout, body: "Logout"))
     :nitro.update(:send, NITRO.button(id: :send, body: "Send", postback: :chat, source: [:message]))
   end
