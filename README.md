@@ -29,4 +29,5 @@ This project is a simple chat application built using Elixir, designed to allow 
 2. Run "mix deps.get"
 3. Start application "iex -S mix"
 
+Video
 [![Watch the video](https://img.youtube.com/vi/e7I3-d8mtBM/maxresdefault.jpg)](https://youtu.be/e7I3-d8mtBM)
