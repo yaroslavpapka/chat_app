@@ -8,5 +8,5 @@
                         n2o_ring,n2o_secret,n2o_session,n2o_static,n2o_syn,
                         n2o_ws,n2o_xml]},
               {registered,[]},
-              {vsn,"10.12.4"},
+              {vsn,"11.9.6"},
               {mod,{n2o,[]}}]}.

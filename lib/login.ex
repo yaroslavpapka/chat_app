@@ -3,9 +3,10 @@ defmodule ChatApp.Login do
   require Logger
 
   def event(:init) do
-    :nitro.insert_top(:main, NITRO.button(id: :room3Button, body: "Room3", postback: {:join_room, "room3"}))
-    :nitro.insert_top(:main, NITRO.button(id: :room2Button, body: "Room2", postback: {:join_room, "room2"}))
-    :nitro.insert_top(:main, NITRO.button(id: :room1Button, body: "Room1", postback: {:join_room, "room1"}))
+    Enum.each(1..3, fn i ->
+      room = "Room#{i}"
+      :nitro.insert_top(:main, NITRO.button(id: String.to_atom("room#{i}Button"), body: room, postback: {:join_room, room}))
+    end)
   end
 
   def event({:join_room, room}) do
