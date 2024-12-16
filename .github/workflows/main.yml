@@ -1,0 +1,26 @@
+name: Elixir CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.16.0' # [Required] Define the Elixir version
+          otp-version: '26.2.1'    # [Required] Define the Erlang/OTP version
+      - name: Change directory
+        run: cd chat_app && mix test
