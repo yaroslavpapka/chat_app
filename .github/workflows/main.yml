@@ -23,4 +23,4 @@ jobs:
           elixir-version: '1.16.0' # [Required] Define the Elixir version
           otp-version: '26.2.1'    # [Required] Define the Erlang/OTP version
       - name: Change directory
-        run: cd chat_app && mix test
+        run: mix test
