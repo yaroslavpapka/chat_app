@@ -1,0 +1,11 @@
+{application,chat_app,
+             [{optional_applications,[]},
+              {applications,[kernel,stdlib,elixir,xmerl,logger,plug,bandit,
+                             plug_cowboy,websock_adapter,nitro,n2o,syn]},
+              {description,"chat_app"},
+              {modules,['Elixir.ChatApp','Elixir.ChatApp.Application',
+                        'Elixir.ChatApp.Index','Elixir.ChatApp.Login',
+                        'Elixir.ChatApp.Router','Elixir.ChatApp.WS']},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.ChatApp.Application',[]}}]}.
