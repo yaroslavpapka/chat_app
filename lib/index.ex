@@ -20,11 +20,6 @@ defmodule ChatApp.Index do
     render_message(user, message, timestamp)
   end
 
-  def event({:client, {user, message, timestamp}}) do
-    render_message(user, message, timestamp)
-  end
-
-
   def event(_), do: :ok
 
   defp handle_empty_room do
