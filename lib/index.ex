@@ -84,6 +84,7 @@ defmodule ChatApp.Index do
       )
     )
   end
+
   def chat(message) do
     room = :n2o.session(:room)
     user = :n2o.user()
